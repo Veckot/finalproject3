@@ -65,7 +65,7 @@ directors     — režiséři (jméno, foto, bio)
 actors        — herci (jméno, foto)
 movie_genres  — vazební tabulka m:n (movies ↔ genres)
 movie_actors  — vazební tabulka m:n (movies ↔ actors)
-users         — uživatelé pro přihlášení
+tabulký pro Ion Auth
 ```
 
 ### Splněné podmínky zadání
