@@ -59,23 +59,25 @@ Všechny controllery používají jednotné názvy metod:
 ## Struktura databáze
 
 ```
-movies        — hlavní tabulka filmů (název, popis, rok, plakát, hodnocení...)
-genres        — žánry (název)
-people        — režiséři, herci (jméno, foto, bio)
-movie_genres  — vazební tabulka m:n (movies ↔ genres)
-movie_actors  — vazební tabulka m:n (movies ↔ actors)
-tabulký pro Ion Auth
+movie          — hlavní tabulka filmů (název, popis, datum vydání, runtime, hodnocení, rozpočet…)
+genres         — žánry (název)
+people         — osoby (herci, režiséři…)
+movie_genres   — vazební tabulka m:n (movie ↔ genres)
+movie_people   — vazební tabulka m:n (movie ↔ people, včetně role)
+tabulky pro Ion Auth
 ```
 
 ### Splněné podmínky zadání
 
-| Podmínka | Řešení |
-|---|---|
-| Sloupec s obrázkem | `poster_path VARCHAR` v tabulce `movies` |
-| Sloupec s datem | `release_date DATE` v tabulce `movies` |
-| Dlouhý text (>1000 znaků) | `description TEXT` v tabulce `movies` |
-| Tabulky z m:n relací | `movie_genres`, `movie_actors` |
-| Soft deletes | `deleted_at DATETIME NULL` v každé tabulce |
+| Podmínka                  | Řešení                                |
+| ------------------------- | ------------------------------------- |
+| Sloupec s obrázkem        | `pic VARCHAR` v tabulce `movie`       |
+| Sloupec s datem           | `release_date DATE` v tabulce `movie` |
+| Dlouhý text (>1000 znaků) | `description TEXT` v tabulce `movie`  |
+| Tabulky z m:n relací      | `movie_genres`, `movie_people`        |
+| Minimálně 15 sloupců      | tabulka `movie` obsahuje 15+ atributů |
+| Reálná data               | data načítána z TMDB API              |
+
 
 ---
 
