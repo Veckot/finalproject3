@@ -89,3 +89,4 @@ tabulký pro Ion Auth
 | TinyMCE | 6.x |
 | MySQL | 8.x |
 | PHP | 8.x |
+| IonAUTH | 4.x |
