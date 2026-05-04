@@ -61,8 +61,7 @@ Všechny controllery používají jednotné názvy metod:
 ```
 movies        — hlavní tabulka filmů (název, popis, rok, plakát, hodnocení...)
 genres        — žánry (název)
-directors     — režiséři (jméno, foto, bio)
-actors        — herci (jméno, foto)
+people        — režiséři, herci (jméno, foto, bio)
 movie_genres  — vazební tabulka m:n (movies ↔ genres)
 movie_actors  — vazební tabulka m:n (movies ↔ actors)
 tabulký pro Ion Auth
