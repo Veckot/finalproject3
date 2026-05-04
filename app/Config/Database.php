@@ -27,11 +27,11 @@ class Database extends Config
     public array $default = [
         'DSN'          => '',
         'hostname'     => 'localhost',
-        'username'     => '',
+        'username'     => 'root',
         'password'     => '',
-        'database'     => '',
+        'database'     => 'hlushko',
         'DBDriver'     => 'MySQLi',
-        'DBPrefix'     => '',
+        'DBPrefix'     => 'finalproject3_',
         'pConnect'     => false,
         'DBDebug'      => true,
         'charset'      => 'utf8mb4',
@@ -45,8 +45,8 @@ class Database extends Config
         'numberNative' => false,
         'foundRows'    => false,
         'dateFormat'   => [
-            'date'     => 'Y-m-d',
-            'datetime' => 'Y-m-d H:i:s',
+            'date'     => 'd-m-Y',
+            'datetime' => 'd-m-Y H:i:s',
             'time'     => 'H:i:s',
         ],
     ];
