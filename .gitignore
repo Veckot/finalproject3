@@ -1,0 +1,38 @@
+# Composer
+/vendor/
+composer.phar
+
+# NPM
+/node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+yarn.lock
+
+# CodeIgniter 4
+/writable/cache/*
+/writable/logs/*
+/writable/session/*
+/writable/uploads/*
+!writable/cache/.gitkeep
+!writable/logs/.gitkeep
+!writable/session/.gitkeep
+!writable/uploads/.gitkeep
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# IDE
+.idea/
+.vscode/
+*.suo
+*.user
+.DS_Store
+Thumbs.db
+
+# Build outputs
+/public/build/
+/dist/
