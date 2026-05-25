@@ -54,17 +54,7 @@ $user      = $loggedIn ? $ionAuth->user()->row() : null;
 </nav>
 
 <main class="max-w-7xl mx-auto px-6 py-8">
-    <?php if (session()->getFlashdata('message')): ?>
-        <div class="mb-4 p-4 rounded-md bg-emerald-500/20 border border-emerald-500 text-emerald-200">
-            <?= session()->getFlashdata('message') ?>
-        </div>
-    <?php endif; ?>
-    <?php if (session()->getFlashdata('error')): ?>
-        <div class="mb-4 p-4 rounded-md bg-rose-500/20 border border-rose-500 text-rose-200">
-            <?= session()->getFlashdata('error') ?>
-        </div>
-    <?php endif; ?>
-
+    <?= view('partials/_alerts') ?>
     <?= $this->renderSection('content') ?>
 </main>
 

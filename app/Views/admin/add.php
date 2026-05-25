@@ -4,10 +4,7 @@
 
 <?php
 helper(['form', 'url']);
-$errors = session()->getFlashdata('errors') ?? [];
-$old    = function ($k, $default = '') {
-    return old($k, $default);
-};
+$old = function ($k, $default = '') { return old($k, $default); };
 ?>
 
 <div class="mb-6 flex items-center justify-between">
@@ -17,17 +14,6 @@ $old    = function ($k, $default = '') {
     </div>
     <a href="<?= site_url('admin') ?>" class="text-sm text-slate-400 hover:text-slate-200">&larr; Back to panel</a>
 </div>
-
-<?php if (!empty($errors)): ?>
-    <div class="mb-4 p-4 rounded-md bg-rose-500/20 border border-rose-500 text-rose-200">
-        <p class="font-semibold mb-1">Please fix the errors below:</p>
-        <ul class="list-disc list-inside text-sm">
-            <?php foreach ($errors as $err): ?>
-                <li><?= esc($err) ?></li>
-            <?php endforeach; ?>
-        </ul>
-    </div>
-<?php endif; ?>
 
 <div class="bg-slate-800 rounded-lg p-6 border border-slate-700 mb-6">
     <p class="text-sm font-semibold mb-3 text-slate-300">What do you want to add?</p>

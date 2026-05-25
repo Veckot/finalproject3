@@ -2,6 +2,8 @@
 
 namespace App\Controllers;
 
+use Config\Messages;
+
 class Auth extends BaseController
 {
     protected $helpers = ['form', 'url'];
@@ -9,9 +11,13 @@ class Auth extends BaseController
     /** @var \IonAuth\Libraries\IonAuth */
     protected $ionAuth;
 
+    /** @var Messages */
+    protected $msg;
+
     public function __construct()
     {
         $this->ionAuth = new \IonAuth\Libraries\IonAuth();
+        $this->msg     = config('Messages');
     }
 
     public function login()
@@ -23,14 +29,17 @@ class Auth extends BaseController
         if ($this->request->is('post')) {
             $identity = (string) $this->request->getPost('identity');
             $password = (string) $this->request->getPost('password');
-            $remember = (bool) $this->request->getPost('remember');
+            $remember = (bool)   $this->request->getPost('remember');
 
             if ($this->ionAuth->login($identity, $password, $remember)) {
-                return redirect()->to(site_url('/'))->with('message', 'Welcome back!');
+                return redirect()->to(site_url('/'))
+                    ->with('success', $this->msg->loginSuccess);
             }
 
+            $ionError = strip_tags($this->ionAuth->errors());
+
             return redirect()->back()->withInput()
-                ->with('error', $this->ionAuth->errors() ?: 'Invalid credentials.');
+                ->with('error', $ionError ?: $this->msg->loginFailed);
         }
 
         return view('auth/login', ['title' => 'Log in']);
@@ -39,6 +48,7 @@ class Auth extends BaseController
     public function logout()
     {
         $this->ionAuth->logout();
-        return redirect()->to(site_url('/'))->with('message', 'You have been logged out.');
+        return redirect()->to(site_url('/'))
+            ->with('success', $this->msg->logoutSuccess);
     }
 }

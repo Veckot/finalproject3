@@ -5,21 +5,23 @@ namespace App\Filters;
 use CodeIgniter\Filters\FilterInterface;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
+use Config\Messages;
 
 class AdminFilter implements FilterInterface
 {
     public function before(RequestInterface $request, $arguments = null)
     {
         $ionAuth = new \IonAuth\Libraries\IonAuth();
+        $msg     = config('Messages');
 
         if (! $ionAuth->loggedIn()) {
             return redirect()->to(site_url('auth/login'))
-                ->with('error', 'You must log in to access this page.');
+                ->with('error', $msg->loginRequired);
         }
 
         if (! $ionAuth->isAdmin()) {
             return redirect()->to(site_url('/'))
-                ->with('error', 'You must be an administrator to access that area.');
+                ->with('error', $msg->adminRequired);
         }
     }
 
