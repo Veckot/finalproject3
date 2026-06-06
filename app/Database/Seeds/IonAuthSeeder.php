@@ -1,11 +1,11 @@
 <?php
-namespace IonAuth\Database\Seeds;
-
+namespace App\Database\Seeds;
+use CodeIgniter\Database\Seeder;
 /**
  * @package CodeIgniter-Ion-Auth
  */
 
-class IonAuthSeeder extends \CodeIgniter\Database\Seeder
+class IonAuthSeeder extends Seeder
 {
 	/**
 	 * Dumping data for table 'groups', 'users, 'users_groups'

@@ -35,6 +35,21 @@ class Messages extends BaseConfig
     /** Redirect message when authenticated non-admin hits an admin page. */
     public string $adminRequired   = 'You need administrator privileges to access that area.';
 
+    /** Shown after a successful registration. */
+    public string $registerSuccess = 'Your account was created. You can now log in.';
+
+    /** Shown when registration fails at the IonAuth level. */
+    public string $registerFailed  = 'We could not create your account. Please try again.';
+
+    /** Shown after a password-reset request (always, to avoid leaking accounts). */
+    public string $resetSent       = 'If that account exists, a password-reset link has been sent.';
+
+    /** Shown after a password is successfully reset. */
+    public string $resetSuccess    = 'Your password has been reset. Please log in.';
+
+    /** Shown when a reset link / code is invalid or expired. */
+    public string $resetInvalidCode = 'That password-reset link is invalid or has expired.';
+
     // -------------------------------------------------------------------------
     // MOVIE
     // -------------------------------------------------------------------------
@@ -81,6 +96,36 @@ class Messages extends BaseConfig
     public string $personDeleted   = '"%s" was removed from the people list.';
 
     public string $personNotFound  = 'That person could not be found.';
+
+    // -------------------------------------------------------------------------
+    // MOVIE <-> PEOPLE (cast & crew)
+    // -------------------------------------------------------------------------
+
+    /** %1$s = person name, %2$s = role */
+    public string $personAttached  = '%1$s was added to the film as %2$s.';
+
+    /** %s = person name */
+    public string $personDetached  = '%s was removed from the film.';
+
+    public string $personAttachInvalid = 'Please choose a valid person and role.';
+
+    // -------------------------------------------------------------------------
+    // USERS (Ion Auth account management)
+    // -------------------------------------------------------------------------
+
+    /** %s = username or email */
+    public string $userUpdated     = 'User "%s" was updated.';
+
+    /** %s = username or email */
+    public string $userDeleted     = 'User "%s" was deleted.';
+
+    public string $userNotFound    = 'That user could not be found.';
+
+    /** Guard: an admin cannot delete their own account. */
+    public string $userSelfDelete  = 'You cannot delete your own account while logged in.';
+
+    /** Guard: validation problem when updating a user. */
+    public string $userUpdateFailed = 'Could not update the user. Please check the fields.';
 
     // -------------------------------------------------------------------------
     // GENERIC / FALLBACKS

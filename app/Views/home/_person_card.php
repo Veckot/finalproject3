@@ -6,7 +6,8 @@ $img = !empty($p->profile_path)
         : 'https://image.tmdb.org/t/p/w185' . $p->profile_path)
     : null;
 ?>
-<div class="bg-slate-800 rounded-lg overflow-hidden border border-slate-700">
+<a href="<?= site_url('person/' . $p->id) ?>"
+   class="block bg-slate-800 rounded-lg overflow-hidden border border-slate-700 hover:border-indigo-500 hover:-translate-y-0.5 transition">
     <div class="aspect-[3/4] bg-slate-700">
         <?php if ($img): ?>
             <img src="<?= esc($img) ?>" alt="<?= esc($p->name) ?>"
@@ -23,4 +24,4 @@ $img = !empty($p->profile_path)
             <?= esc($p->role ?? $p->known_for_department ?? '') ?>
         </p>
     </div>
-</div>
+</a>

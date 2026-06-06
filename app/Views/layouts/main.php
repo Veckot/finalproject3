@@ -1,8 +1,9 @@
 <?php
-$ionAuth   = new \IonAuth\Libraries\IonAuth();
-$loggedIn  = $ionAuth->loggedIn();
-$isAdmin   = $loggedIn && $ionAuth->isAdmin();
-$user      = $loggedIn ? $ionAuth->user()->row() : null;
+// Auth state for the navbar (recomputed each request).
+$ion_auth  = new \IonAuth\Libraries\IonAuth();
+$logged_in = $ion_auth->loggedIn();
+$is_admin  = $logged_in && $ion_auth->isAdmin();
+$user      = $logged_in ? $ion_auth->user()->row() : null;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -26,13 +27,22 @@ $user      = $loggedIn ? $ionAuth->user()->row() : null;
             <a href="<?= site_url('/') ?>" class="px-3 py-1.5 rounded-md hover:bg-slate-700 transition text-sm">
                 Home
             </a>
+            <a href="<?= site_url('genres') ?>" class="px-3 py-1.5 rounded-md hover:bg-slate-700 transition text-sm">
+                Genres
+            </a>
+            <a href="<?= site_url('people') ?>" class="px-3 py-1.5 rounded-md hover:bg-slate-700 transition text-sm">
+                People
+            </a>
+            <a href="<?= site_url('stats') ?>" class="px-3 py-1.5 rounded-md hover:bg-slate-700 transition text-sm">
+                Stats
+            </a>
 
-            <?php if ($loggedIn): ?>
+            <?php if ($logged_in): ?>
                 <span class="text-sm text-slate-400 hidden sm:inline">
                     Hi, <?= esc($user->username ?? $user->email) ?>
                 </span>
 
-                <?php if ($isAdmin): ?>
+                <?php if ($is_admin): ?>
                     <a href="<?= site_url('admin') ?>"
                        class="px-4 py-1.5 rounded-md bg-amber-500 text-slate-900 font-semibold hover:bg-amber-400 transition text-sm">
                         Admin Panel
@@ -44,6 +54,10 @@ $user      = $loggedIn ? $ionAuth->user()->row() : null;
                     Logout
                 </a>
             <?php else: ?>
+                <a href="<?= site_url('auth/register') ?>"
+                   class="px-3 py-1.5 rounded-md border border-slate-600 hover:bg-slate-700 transition text-sm">
+                    Register
+                </a>
                 <a href="<?= site_url('auth/login') ?>"
                    class="px-4 py-1.5 rounded-md bg-indigo-500 hover:bg-indigo-400 transition text-sm font-medium">
                     Log in
@@ -55,6 +69,9 @@ $user      = $loggedIn ? $ionAuth->user()->row() : null;
 
 <main class="max-w-7xl mx-auto px-6 py-8">
     <?= view('partials/_alerts') ?>
+    <?php if (! empty($crumbs)): ?>
+        <?= view('partials/_breadcrumbs', ['crumbs' => $crumbs]) ?>
+    <?php endif; ?>
     <?= $this->renderSection('content') ?>
 </main>
 
@@ -62,5 +79,6 @@ $user      = $loggedIn ? $ionAuth->user()->row() : null;
     CineDB &middot; built with CodeIgniter 4 + Tailwind
 </footer>
 
+<script src="<?= base_url('assets/js/app.js') ?>" defer></script>
 </body>
 </html>

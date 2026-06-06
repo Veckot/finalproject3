@@ -4,25 +4,18 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class People extends Model
+class Users extends Model
 {
-    protected $table            = 'people';
+    protected $table            = 'users';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'object';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [
-        'tmdb_id',
-        'name',
-        'gender',
-        'birthday',
-        'deathday',
-        'place_of_birth',
-        'popularity',
-        'known_for_department',
-        'profile_path',
-    ];
+    // Read-only helper model over the Ion Auth `users` table. Mutations
+    // (create/update/delete, group membership, password) go through the
+    // Ion Auth library so its hashing and group logic stay authoritative.
+    protected $allowedFields    = [];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;
@@ -31,22 +24,21 @@ class People extends Model
     protected array $castHandlers = [];
 
     /**
-     * All movies a person is linked to, with their role on each.
+     * Whether a user belongs to the administrators group.
      *
-     * JOINs movie_people with movie and orders by newest release first.
-     *
-     * @param int $person_id Person id to look up.
-     * @return array<int,object> Rows of {id, name, pic, release_date, rating, role}.
+     * @param int    $user_id    User id to check.
+     * @param string $admin_name Admin group name (from Ion Auth config).
+     * @return bool               True if the user is in the admin group.
      */
-    public function get_movies(int $person_id): array
+    public function is_admin(int $user_id, string $admin_name = 'admin'): bool
     {
-        return $this->db->table('movie_people mp')
-            ->select('m.id, m.name, m.pic, m.release_date, m.rating, mp.role')
-            ->join('movie m', 'm.id = mp.movie_id')
-            ->where('mp.people_id', $person_id)
-            ->orderBy('m.release_date', 'DESC')
-            ->get()
-            ->getResult();
+        $count = $this->db->table('users_groups ug')
+            ->join('groups g', 'g.id = ug.group_id')
+            ->where('ug.user_id', $user_id)
+            ->where('g.name', $admin_name)
+            ->countAllResults();
+
+        return $count > 0;
     }
 
     // Dates

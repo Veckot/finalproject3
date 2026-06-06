@@ -20,6 +20,28 @@
     <?php endforeach; ?>
 </div>
 
+<form method="get" action="<?= site_url('admin/list') ?>" class="mb-4 flex gap-2">
+    <input type="hidden" name="entity" value="<?= esc($entity, 'attr') ?>">
+    <input type="text" name="q" value="<?= esc($q ?? '', 'attr') ?>"
+           placeholder="Search by name..."
+           class="flex-1 max-w-sm px-4 py-2 rounded-md bg-slate-800 border border-slate-700 focus:outline-none focus:border-indigo-500 text-sm">
+    <button type="submit" class="px-4 py-2 rounded-md bg-indigo-500 hover:bg-indigo-400 text-sm font-medium">
+        Search
+    </button>
+    <?php if (!empty($q)): ?>
+        <a href="<?= site_url('admin/list?entity=' . $entity) ?>"
+           class="px-4 py-2 rounded-md border border-slate-600 hover:bg-slate-700 text-sm">
+            Clear
+        </a>
+    <?php endif; ?>
+</form>
+
+<?php if (!empty($q)): ?>
+    <p class="text-sm text-slate-400 mb-3">
+        Showing results for <span class="text-slate-200 font-medium">"<?= esc($q) ?>"</span>.
+    </p>
+<?php endif; ?>
+
 <div class="bg-slate-800 rounded-lg border border-slate-700 overflow-hidden">
     <table class="w-full text-sm">
         <thead class="bg-slate-900 text-slate-400 text-xs uppercase tracking-wide">
@@ -64,7 +86,9 @@
         <?php endforeach; ?>
         <?php if (empty($items)): ?>
             <tr>
-                <td colspan="5" class="px-4 py-10 text-center text-slate-500">No entries.</td>
+                <td colspan="5" class="px-4 py-10 text-center text-slate-500">
+                    <?= !empty($q) ? 'No matches for "' . esc($q) . '".' : 'No entries.' ?>
+                </td>
             </tr>
         <?php endif; ?>
         </tbody>

@@ -2,47 +2,37 @@
 
 <?= $this->section('content') ?>
 
-<?php helper(['form', 'url']); ?>
-
-<div class="max-w-md mx-auto bg-slate-800 rounded-lg p-8 border border-slate-700 mt-10">
+<div class="max-w-md mx-auto bg-slate-800 rounded-lg p-8 border border-slate-700 mt-6">
     <h1 class="text-2xl font-bold mb-1">Log in</h1>
-    <p class="text-sm text-slate-400 mb-6">Use your email or username.</p>
+    <p class="text-sm text-slate-400 mb-6">Use your email <em>or</em> username.</p>
 
     <?= form_open(site_url('auth/login'), ['class' => 'space-y-4']) ?>
 
-    <div>
-        <?= form_label('Email or username', 'identity', ['class' => 'block text-sm font-medium mb-1']) ?>
-        <?= form_input([
-            'name'  => 'identity',
-            'id'    => 'identity',
-            'value' => old('identity'),
-            'class' => 'w-full px-3 py-2 rounded-md bg-slate-900 border border-slate-600 focus:outline-none focus:border-indigo-500',
-            'autofocus' => 'autofocus',
-            'required' => 'required',
+        <?= field_text('login', 'Email or username', [
+            'value'     => old('login'),
+            'required'  => true,
+            'attrs'     => ['autofocus' => 'autofocus', 'autocomplete' => 'username'],
         ]) ?>
-    </div>
 
-    <div>
-        <?= form_label('Password', 'password', ['class' => 'block text-sm font-medium mb-1']) ?>
-        <?= form_password([
-            'name'  => 'password',
-            'id'    => 'password',
-            'class' => 'w-full px-3 py-2 rounded-md bg-slate-900 border border-slate-600 focus:outline-none focus:border-indigo-500',
-            'required' => 'required',
+        <?= field_password('password', 'Password', [
+            'required' => true,
+            'attrs'    => ['autocomplete' => 'current-password'],
         ]) ?>
-    </div>
 
-    <div class="flex items-center gap-2">
-        <?= form_checkbox('remember', '1', false, 'id="remember" class="accent-indigo-500"') ?>
-        <?= form_label('Remember me', 'remember', ['class' => 'text-sm text-slate-300']) ?>
-    </div>
+        <?= field_checkbox('remember', 'Remember me') ?>
 
-    <?= form_submit('submit', 'Log in', [
-        'class' => 'w-full px-4 py-2 rounded-md bg-indigo-500 hover:bg-indigo-400 font-semibold cursor-pointer',
-    ]) ?>
+        <?= field_submit('Log in', ['class' => 'w-full px-4 py-2 rounded-md bg-indigo-500 hover:bg-indigo-400 font-semibold cursor-pointer transition']) ?>
 
     <?= form_close() ?>
-    
+
+    <div class="flex items-center justify-between mt-6 text-sm">
+        <a href="<?= site_url('auth/register') ?>" class="text-indigo-400 hover:text-indigo-300">Create account</a>
+        <a href="<?= site_url('auth/forgot') ?>" class="text-slate-400 hover:text-slate-200">Forgot password?</a>
+    </div>
+
+    <p class="text-xs text-slate-500 mt-6">
+        Seeded admin: <code class="text-slate-300">admin@admin.com / password</code>
+    </p>
 </div>
 
 <?= $this->endSection() ?>
