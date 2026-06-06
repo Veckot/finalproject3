@@ -212,3 +212,9 @@ $val = function (string $key, $default = '') use ($item) {
 <?php endif; ?>
 
 <?= $this->endSection() ?>
+
+<?php if ($entity === 'movie'): ?>
+    <?= $this->section('scripts') ?>
+        <?= view('partials/_tinymce') ?>
+    <?= $this->endSection() ?>
+<?php endif; ?>

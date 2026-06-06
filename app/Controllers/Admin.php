@@ -64,9 +64,12 @@ class Admin extends BaseController
     /**
      * Show the "add entry" form with a type switch (movie / genre / person).
      *
+     * Named create() to follow the standard CRUD convention (GET = show the
+     * creation form); store() handles the POST.
+     *
      * @return string Rendered add form.
      */
-    public function add(): string
+    public function create(): string
     {
         $entity = $this->resolve_entity($this->request->getGet('entity'));
 

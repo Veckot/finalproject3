@@ -93,8 +93,8 @@ tabulky pro Ion Auth
 | Nástroj | Verze |
 |---|---|
 | CodeIgniter | 4.x |
-| Bootstrap | 5.x |
-| TinyMCE | 6.x |
+| Tailwind CSS | 3.4.x |
+| TinyMCE | 7.x |
 | MySQL | 8.x |
 | PHP | 8.x |
 | IonAUTH | 4.x |

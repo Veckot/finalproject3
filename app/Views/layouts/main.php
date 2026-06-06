@@ -80,5 +80,6 @@ $user      = $logged_in ? $ion_auth->user()->row() : null;
 </footer>
 
 <script src="<?= base_url('assets/js/app.js') ?>" defer></script>
+<?= $this->renderSection('scripts') ?>
 </body>
 </html>

@@ -34,7 +34,7 @@ $routes->group('auth', static function ($routes) {
 $routes->group('admin', ['filter' => 'admin'], static function ($routes) {
     // Entity CRUD (movie / genre / person)
     $routes->get('/',                                  'Admin::index');
-    $routes->get('add',                                'Admin::add');
+    $routes->get('add',                                'Admin::create');
     $routes->post('store',                             'Admin::store');
     $routes->get('list',                               'Admin::list_entries');
     $routes->get('edit/(:segment)/(:num)',             'Admin::edit/$1/$2');

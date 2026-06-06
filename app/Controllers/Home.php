@@ -24,31 +24,58 @@ class Home extends BaseController
     // =========================================================================
 
     /**
-     * Home page: paginated, searchable grid of movies (by popularity).
+     * Home page: paginated grid of movies with search + filters.
+     *
+     * Filters (all optional, combinable, kept across pagination):
+     *   q      – title search (LIKE)
+     *   genre  – genre id (JOIN movie_genres)
+     *   year   – exact release year
+     *   rating – minimum rating
      *
      * @return string Rendered movie list.
      */
     public function index(): string
     {
-        $per_page = 20;
-        $search   = trim((string) $this->request->getGet('q'));
+        $per_page   = 20;
+        $search     = trim((string) $this->request->getGet('q'));
+        $year       = trim((string) $this->request->getGet('year'));
+        $min_rating = trim((string) $this->request->getGet('rating'));
+        $genre_id   = (int) $this->request->getGet('genre');
 
         $model = new Movie();
-        $model->orderBy('popularity', 'DESC');
 
+        // Genre filter adds a JOIN; columns are qualified with `movie.` so the
+        // other filters stay unambiguous whether or not the JOIN is present.
+        if ($genre_id) {
+            $model->for_genre($genre_id);
+        }
         if ($search !== '') {
-            $model->like('name', $search);
+            $model->like('movie.name', $search);
+        }
+        if ($year !== '') {
+            $model->where('YEAR(movie.release_date)', (int) $year);
+        }
+        if ($min_rating !== '') {
+            $model->where('movie.rating >=', (float) $min_rating);
         }
 
+        $model->orderBy('movie.popularity', 'DESC');
+
+        // Count with the filters applied (reset=false keeps them for paginate).
+        $total  = $model->countAllResults(false);
         $movies = $model->paginate($per_page);
-        $model->pager->only(['q']);
+        $model->pager->only(['q', 'genre', 'year', 'rating']);
 
         return view('home/index', [
-            'title'  => 'CineDB · Movies',
-            'movies' => $movies,
-            'pager'  => $model->pager,
-            'total'  => $model->countAllResults(false),
-            'q'      => $search,
+            'title'    => 'CineDB · Movies',
+            'movies'   => $movies,
+            'pager'    => $model->pager,
+            'total'    => $total,
+            'q'        => $search,
+            'year'     => $year,
+            'rating'   => $min_rating,
+            'genre_id' => $genre_id,
+            'genres'   => (new Genres())->orderBy('name', 'ASC')->findAll(),
         ]);
     }
 

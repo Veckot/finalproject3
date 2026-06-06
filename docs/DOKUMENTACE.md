@@ -42,6 +42,7 @@ Pro každou knihovnu je uveden **název, verze, autor, licence a odkaz**.
 | Tailwind CSS | 3.4.19 | Tailwind Labs Inc. (Adam Wathan a kol.) | MIT | https://tailwindcss.com |
 | @tailwindcss/forms | 0.5.11 | Tailwind Labs Inc. | MIT | https://github.com/tailwindlabs/tailwindcss-forms |
 | @tailwindcss/line-clamp | 0.4.4 | Tailwind Labs Inc. | MIT | https://github.com/tailwindlabs/tailwindcss-line-clamp |
+| TinyMCE (self-hosted) | 7.9.3 | Tiny Technologies Inc. | GPL-2.0-or-later | https://github.com/tinymce/tinymce |
 | Inter (webfont) | 4.x | Rasmus Andersson | SIL Open Font License 1.1 | https://rsms.me/inter/ |
 
 ### 2.2 Vývojové (dev) závislosti
@@ -98,7 +99,7 @@ helpery `form`, `url` a vlastní `form_ext`, takže jsou dostupné ve všech ša
 ### 5.2 `App\Controllers\Home` (veřejná část)
 | Metoda | Co dělá |
 |--------|---------|
-| `index()` | Vypíše stránkovaný seznam filmů (20 / stránka) seřazený podle popularity; podporuje vyhledávání podle názvu (`?q=`). Předává data a pager do šablony `home/index`. |
+| `index()` | Stránkovaný seznam filmů (20 / stránka) dle popularity s **filtrováním** – vyhledávání názvu (`q`), žánr (`genre`, JOIN), rok (`year`) a minimální hodnocení (`rating`). Filtry se udržují ve stránkování. |
 | `show(int $id)` | Detail jednoho filmu. Načte film, jeho žánry a osoby (JOIN), rozdělí osoby na herce a režiséry a zobrazí šablonu `home/show`. Pokud film neexistuje, vyhodí 404. |
 | `genres()` | Výpis všech žánrů s počtem filmů u každého (agregace). |
 | `genre(int $id)` | Stránkovaný výpis filmů jednoho žánru (JOIN), jako hlavní výpis filmů. 404 při neexistenci. |
@@ -120,7 +121,7 @@ helpery `form`, `url` a vlastní `form_ext`, takže jsou dostupné ve všech ša
 |--------|---------|
 | `__construct()` | Načte konfiguraci hlášek. |
 | `index()` | Rozcestník administrace + počty záznamů (agregace `COUNT`). |
-| `add()` | Zobrazí formulář pro přidání s přepínačem typu (film / žánr / osoba). |
+| `create()` | Zobrazí formulář pro přidání s přepínačem typu (film / žánr / osoba). U filmu má pole popisu rich-text editor TinyMCE. |
 | `store()` | Zvaliduje a uloží nový záznam podle zvoleného typu; nastaví flash hlášku. |
 | `list_entries()` | Stránkovaný výpis záznamů daného typu s **vyhledáváním** podle názvu; udržuje `q` a `entity` ve stránkování. |
 | `edit(string $entity, int $id)` | Formulář pro úpravu záznamu. U filmu navíc načte připojené osoby a seznam všech osob (správa obsazení). |
@@ -217,6 +218,13 @@ Bez frameworku, načítán s `defer`. Funkce: přepínání zobrazení hesla
 (`[data-toggle-password]`), přidávání/odebírání řádků v dávkových formulářích,
 hromadný výběr v tabulce a inicializace Select2 (je-li přítomen).
 
+### 6.6 TinyMCE (rich-text editor) – `app/Views/partials/_tinymce.php`
+Self-hostovaný (bez CDN) editor pro pole popisu filmu. Načítá se přímo z npm
+balíčku v `node_modules/tinymce/` (kořen projektu je zároveň web root, takže je
+soubor dostupný – stejně jako `assets/`). Partial se vkládá jen na stránkách
+přidání/úpravy filmu přes sekci `scripts` v layoutu a inicializuje editor na
+prvku `#description` (tmavý skin `oxide-dark`, GPL licence).
+
 ---
 
 ## 7. Popis konfiguračních proměnných
@@ -286,10 +294,10 @@ nově registrovaných, `members`), `tables` (názvy tabulek Ion Auth).
 # PHP závislosti
 composer install
 
-# JS / CSS závislosti a build Tailwindu
+# JS / CSS závislosti a build Tailwindu (TinyMCE se servíruje z node_modules)
 npm install
 npm run build:css        # jednorázový build do assets/css/app.css
-# npm run watch:css       # průběžný build při vývoji
+# npm run watch:css       # průběžný build CSS při vývoji
 
 # Databáze
 php spark migrate

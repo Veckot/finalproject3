@@ -256,3 +256,9 @@ $old = function ($k, $default = '') { return old($k, $default); };
 </div>
 
 <?= $this->endSection() ?>
+
+<?php if ($entity === 'movie'): ?>
+    <?= $this->section('scripts') ?>
+        <?= view('partials/_tinymce') ?>
+    <?= $this->endSection() ?>
+<?php endif; ?>
