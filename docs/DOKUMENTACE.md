@@ -24,7 +24,7 @@ zodpovídá za uvedené části (návrh, implementaci i odladění).
 | Autentizace (přihlášení, registrace, zapomenuté heslo) | `Auth`, `IdentityResolver`, `app/Views/auth/*` | **Ostap Hlushko** |
 | Frontend infrastruktura (Tailwind build, helpery, šablony, JS) | `app/Helpers/form_ext_helper.php`, `assets/js/app.js`, `layouts/main.php`, `partials/*` | **Matvii Kopylov** |
 | Konfigurace, lokalizace hlášek, filtry | `app/Config/Messages.php`, `Validation.php`, `Filters.php`, `app/Filters/AdminFilter.php` | **Ostap Hlushko** |
-| Dokumentace | `docs/*` | **Ostap Hlushko + Matvii Kopylov** |
+| Dokumentace | `docs/*` | **Claude (Anthropic)** |
 
 ---
 
