@@ -18,7 +18,6 @@ Data jsou importována z volně dostupného datasetu TMDB/IMDb (CSV/JSON), čím
 ## Dokumentace
 
 - 📄 [Dokumentace projektu](docs/DOKUMENTACE.md) — rozdělení práce, externí nástroje, citace AI, popis kontrolerů, knihoven a konfiguračních proměnných.
-- 🧩 [Přehled funkcí (FEATURES)](docs/FEATURES.md) — specifikace volitelných funkcí a programátorské složitosti.
 
 ---
 
